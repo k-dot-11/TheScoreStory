@@ -11,7 +11,7 @@ function App() {
 	const getData = () => {
 		setIsLoading(true);
 		const list = [];
-		fetch('https://cors-anywhere.herokuapp.com/v2.api-football.com/teams/league/524', {
+		fetch('https://cors-anywhere.herokuapp.com/v2.api-football.com/leagueTable/524', {
 			headers: {
 				'X-RapidAPI-Key': '32bbb72dd3f89e74578605f98eff3b31'
 			}
@@ -19,11 +19,10 @@ function App() {
 			.then((response) => response.json())
 			.then((data) => {
 				for (var i = 0; i < 20; ++i) {
-					list.push(data.api.teams[i]);
-					console.log(data.api.teams[i]);
+					list.push(data.api.standings[i]);
 				}
 
-				setTeamList(list);
+				setTeamList(list[0]);
 				setIsLoading(false);
 			})
 			.catch((error) => console.log(error));
@@ -31,8 +30,11 @@ function App() {
 
 	const listItems = teamList.map((item) => (
 		<ListGroup.Item key={item.team_id}>
-			<Image src={item.logo} style={{height:'20px'}} roundedCircle />
-			{item.name}
+			{item.rank}
+			{'.'}
+			<Image src={item.logo} style={{ height: '20px', marginRight: '5px', marginLeft: '5px' }} roundedCircle />
+			{item.teamName}
+			{item.points}
 		</ListGroup.Item>
 	));
 
